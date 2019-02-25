@@ -17,6 +17,7 @@ class WaybackMiddleware:
                 "https://web.archive.org/save/{}".format(wayback_url),
                 callback=self.handle_wayback,
                 meta={"dont_obey_robotstxt": True, "dont_redirect": True},
+                dont_filter=True,
             )
 
     def handle_wayback(self, response):
