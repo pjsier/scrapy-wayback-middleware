@@ -1,3 +1,4 @@
+attrs>=17.4.0
 scrapy
 flake8
 pytest
