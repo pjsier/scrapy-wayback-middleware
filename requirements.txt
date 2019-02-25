@@ -1,0 +1,4 @@
+scrapy
+flake8
+pytest
+isort

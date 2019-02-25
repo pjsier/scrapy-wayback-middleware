@@ -1,0 +1,14 @@
+[tool.black]
+exclude = '''
+/(
+    \.git
+  | \.pytest_cache
+  | \.tox
+  | \.venv
+  | \.vscode
+  | __pycache__
+  | build
+  | coverage
+  | dist
+)/
+'''
