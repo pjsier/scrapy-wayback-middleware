@@ -24,4 +24,4 @@ In order to avoid sending duplicate requests with `WAYBACK_MIDDLEWARE_POST` set 
 
 ### Rate Limits
 
-While neither endpoint returns headers indicating specific rate limits, the `GET` endpoint at `web.archive.org/save` has a rate limit of 25 requests/minute, resetting each minute.
+While neither endpoint returns headers indicating specific rate limits, the `GET` endpoint at `web.archive.org/save` has a rate limit of 25 requests/minute, resetting each minute. The middleware is configured to wait for 60 seconds whenever it sees a 429 error code to handle this.

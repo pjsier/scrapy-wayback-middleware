@@ -20,7 +20,7 @@ def response_mock():
 
 
 def test_process_spider_output(response_mock):
-    middleware = WaybackMiddleware()
+    middleware = WaybackMiddleware(MagicMock())
     [res for res in middleware.process_spider_output(response_mock, [], None)]
     scrapy.Request.assert_called_once()
     assert (
@@ -30,14 +30,14 @@ def test_process_spider_output(response_mock):
 
 
 def test_ignore_archive_urls(response_mock):
-    middleware = WaybackMiddleware()
+    middleware = WaybackMiddleware(MagicMock())
     response_mock.url = "https://web.archive.org/save/https://example.com"
     [res for res in middleware.process_spider_output(response_mock, [], None)]
     scrapy.Request.assert_not_called()
 
 
 def test_get_item_urls(monkeypatch, scrapy_request, response_mock):
-    middleware = WaybackMiddleware()
+    middleware = WaybackMiddleware(MagicMock())
     monkeypatch.setattr(
         middleware, "get_item_urls", lambda x: ["https://example.com/test"]
     )
@@ -46,14 +46,23 @@ def test_get_item_urls(monkeypatch, scrapy_request, response_mock):
 
 
 def test_use_post_request(response_mock):
-    middleware = WaybackMiddleware(True)
+    middleware = WaybackMiddleware(MagicMock, is_post=True)
     [res for res in middleware.process_spider_output(response_mock, [], None)]
     scrapy.Request.assert_called_once()
     assert scrapy.Request.call_args[0][0] == "https://pragma.archivelab.org"
 
 
 def test_ignore_post_requests(scrapy_request, response_mock):
-    middleware = WaybackMiddleware()
+    middleware = WaybackMiddleware(MagicMock())
     response_mock.request.method = "POST"
     [res for res in middleware.process_spider_output(response_mock, [], None)]
     scrapy.Request.assert_not_called()
+
+
+def test_pause_on_429(response_mock):
+    response_mock.status = 429
+    crawler_mock = MagicMock()
+    crawler_mock.engine = MagicMock()
+    middleware = WaybackMiddleware(crawler_mock)
+    middleware.process_spider_input(response_mock, None)
+    crawler_mock.engine.pause.assert_called_once()

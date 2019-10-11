@@ -1,4 +1,5 @@
 import json
+import time
 
 import scrapy
 
@@ -9,10 +10,17 @@ class WaybackMiddleware:
     @classmethod
     def from_crawler(cls, crawler):
         is_post = crawler.settings.get("WAYBACK_MIDDLEWARE_POST")
-        return cls(is_post=(is_post and is_post is not None))
+        return cls(crawler, is_post=(is_post and is_post is not None))
 
-    def __init__(self, is_post=False):
+    def __init__(self, crawler, is_post=False):
+        self.crawler = crawler
         self.is_post = is_post
+
+    def process_spider_input(self, response, spider):
+        if response.status == 429:
+            self.crawler.engine.pause()
+            time.sleep(60)
+            self.crawler.engine.unpause()
 
     def process_spider_output(self, response, result, spider):
         """Process normally, adding Wayback Machine requests"""
@@ -32,14 +40,24 @@ class WaybackMiddleware:
                     headers={"Content-Type": "application/json"},
                     body=json.dumps({"url": wayback_url}),
                     callback=self.handle_wayback,
-                    meta={"dont_obey_robotstxt": True, "dont_redirect": True},
+                    meta={
+                        "handle_httpstatus_list": [200, 429],
+                        "dont_obey_robotstxt": True,
+                        "dont_redirect": True,
+                        "dont_retry": True,
+                    },
                     dont_filter=True,
                 )
             else:
                 yield scrapy.Request(
                     "https://web.archive.org/save/{}".format(wayback_url),
                     callback=self.handle_wayback,
-                    meta={"dont_obey_robotstxt": True, "dont_redirect": True},
+                    meta={
+                        "handle_httpstatus_list": [200, 429],
+                        "dont_obey_robotstxt": True,
+                        "dont_redirect": True,
+                        "dont_retry": True,
+                    },
                 )
 
     def handle_wayback(self, response):
