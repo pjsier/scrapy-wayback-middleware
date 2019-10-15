@@ -1,6 +1,6 @@
 # Scrapy Wayback Middleware
 
-[![Build Status](https://travis-ci.org/City-Bureau/scrapy-wayback-middleware.svg?branch=master)](https://travis-ci.org/City-Bureau/scrapy-wayback-middleware)
+[![Build status](https://github.com/City-Bureau/scrapy-wayback-middleware/workflows/CI/badge.svg)](https://github.com/City-Bureau/scrapy-wayback-middleware/actions)
 
 Middleware for submitting all scraped response URLs to the [Internet Archive Wayback Machine](https://archive.org/web/) for archival.
 
