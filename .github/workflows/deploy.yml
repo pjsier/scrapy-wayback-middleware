@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     tags:
-      - '*'
+      - 'v*'
 
 jobs:
   deploy:
@@ -26,3 +26,13 @@ jobs:
       run: |
         python setup.py sdist bdist_wheel
         twine upload dist/*
+    - uses: actions/setup-node@v1
+      with:
+        node-version: "11.x"
+    - run: npm install -g conventional-changelog-cli
+    - run: conventional-changelog -p conventional -i CHANGELOG.md -s
+    - name: Create release from changelog
+      uses: ncipollo/release-action@v1
+      with:
+        bodyFile: CHANGELOG.md
+        token: ${{ secrets.GITHUB_TOKEN }}
