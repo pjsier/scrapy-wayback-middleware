@@ -3,36 +3,36 @@ name: Deploy
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Set up Python
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.7
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install setuptools wheel twine
-        pip install -r requirements.txt
-    - name: Build and publish
-      env:
-        TWINE_USERNAME: pjsier
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      run: |
-        python setup.py sdist bdist_wheel
-        twine upload dist/*
-    - uses: actions/setup-node@v1
-      with:
-        node-version: "11.x"
-    - run: npm install -g conventional-changelog-cli
-    - run: conventional-changelog -p conventional -i CHANGELOG.md -s -r 2
-    - name: Create release from changelog
-      uses: ncipollo/release-action@v1
-      with:
-        bodyFile: CHANGELOG.md
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v1
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install setuptools wheel twine
+          pip install -r requirements.txt
+      - name: Build and publish
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          python setup.py sdist bdist_wheel
+          twine upload dist/*
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "11.x"
+      - run: npm install -g conventional-changelog-cli
+      - run: conventional-changelog -p conventional -i CHANGELOG.md -s -r 2
+      - name: Create release from changelog
+        uses: ncipollo/release-action@v1
+        with:
+          bodyFile: CHANGELOG.md
+          token: ${{ secrets.GITHUB_TOKEN }}
