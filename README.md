@@ -1,6 +1,6 @@
 # Scrapy Wayback Middleware
 
-[![Build status](https://github.com/City-Bureau/scrapy-wayback-middleware/workflows/CI/badge.svg)](https://github.com/City-Bureau/scrapy-wayback-middleware/actions)
+[![Build status](https://github.com/pjsier/scrapy-wayback-middleware/workflows/CI/badge.svg)](https://github.com/pjsier/scrapy-wayback-middleware/actions)
 
 Middleware for submitting all scraped response URLs to the [Internet Archive Wayback Machine](https://archive.org/web/) for archival.
 

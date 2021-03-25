@@ -11,13 +11,13 @@ setup(
     version=__version__,
     license="MIT",
     author="Pat Sier",
-    author_email="pat@citybureau.org",
+    author_email="pjsier@gmail.com",
     description=(
         "Scrapy middleware for submitting URLs to the Internet Archive Wayback Machine"
     ),
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/City-Bureau/scrapy-wayback-middleware",
+    url="https://github.com/pjsier/scrapy-wayback-middleware",
     packages=find_packages(),
     install_requires=["scrapy"],
     tests_requires=["flake8", "pytest", "isort"],
