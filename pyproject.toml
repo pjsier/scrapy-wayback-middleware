@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "scrapy-wayback-middleware"
-version = "0.3.3b0"
+version = "0.3.3"
 description = "Scrapy middleware for submitting URLs to the Internet Archive Wayback Machine"
 authors = ["pjsier <pjsier@gmail.com>"]
 license = "MIT"
