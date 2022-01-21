@@ -75,3 +75,5 @@ ENV/
 
 # OS files
 .DS_Store
+
+poetry.lock

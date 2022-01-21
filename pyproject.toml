@@ -1,3 +1,29 @@
+[tool.poetry]
+name = "scrapy-wayback-middleware"
+version = "0.3.3b0"
+description = "Scrapy middleware for submitting URLs to the Internet Archive Wayback Machine"
+authors = ["pjsier <pjsier@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/pjsier/scrapy-wayback-middleware"
+homepage = "https://github.com/pjsier/scrapy-wayback-middleware"
+exclude = ["tests", ".github"]
+
+[tool.poetry.dependencies]
+python = ">=3.6.1,<4.0"
+attrs = ">=17.4.0"
+scrapy = ">=2.0,<3.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2"
+flake8 = "^4.0"
+isort = "^5.10"
+black = "19.10b0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.black]
 exclude = '''
 /(
@@ -12,3 +38,24 @@ exclude = '''
   | dist
 )/
 '''
+
+[tool.isort]
+sections = [
+  "FUTURE",
+  "STDLIB",
+  "THIRDPARTY",
+  "FIRSTPARTY",
+  "LOCALFOLDER",
+]
+known_first_party = ["scrapy_wayback_middleware"]
+skip_glob = [
+  "*/.venv/*",
+  "*/.pytest_cache/*",
+  "*/dist/*",
+  "*/build/*",
+]
+multi_line_output = 3
+line_length = 88
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
