@@ -16,7 +16,7 @@ scrapy = ">=2.0,<3.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.0"
-flake8 = "^4.0"
+flake8 = "^5.0"
 isort = "^5.10"
 black = "20.8b1"
 
